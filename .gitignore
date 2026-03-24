@@ -1,0 +1,118 @@
+# ------------------------------
+# OS / System Files
+# ------------------------------
+.DS_Store
+Thumbs.db
+
+# ------------------------------
+# Environment Variables
+# ------------------------------
+.env
+.env.*
+!.env.example
+
+# ------------------------------
+# Logs
+# ------------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ------------------------------
+# Node.js (Frontend + Backend)
+# ------------------------------
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ------------------------------
+# Frontend Specific
+# ------------------------------
+# React / Vite
+.vite/
+.cache/
+
+# Angular
+.angular/
+*.angular
+
+# Vue
+.nuxt/
+.vuepress/dist
+
+# ------------------------------
+# Backend Specific
+# ------------------------------
+# Node backend build
+lib/
+tmp/
+
+# Python backend
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+venv/
+.env/
+pip-wheel-metadata/
+
+# ------------------------------
+# Database
+# ------------------------------
+*.sql
+*.db
+*.sqlite
+
+# ------------------------------
+# IDE / Editor Files
+# ------------------------------
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ------------------------------
+# Testing
+# ------------------------------
+coverage/
+.nyc_output/
+
+# ------------------------------
+# Docker
+# ------------------------------
+.dockerignore
+docker-compose.override.yml
+
+# ------------------------------
+# Build Artifacts
+# ------------------------------
+*.tgz
+*.tar.gz
+
+# ------------------------------
+# Misc
+# ------------------------------
+*.pem
+*.key
+*.crt
+
+# ------------------------------
+# Optional: Ignore uploads
+# ------------------------------
+uploads/
+public/uploads/
