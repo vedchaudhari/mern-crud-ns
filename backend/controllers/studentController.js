@@ -19,14 +19,20 @@ export const createStudent = async (req, res) => {
 export const getStudents = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
+    const search = req.query.search || "";
 
-    const total = await pool.query("SELECT COUNT(*) FROM students");
+    const searchStr = `%${search}%`;
+
+    const total = await pool.query(
+      "SELECT COUNT(*) FROM students WHERE name ILIKE $1 OR email ILIKE $1",
+      [searchStr]
+    );
 
     const data = await pool.query(
-      "SELECT * FROM students ORDER BY id LIMIT $1 OFFSET $2",
-      [limit, offset]
+      "SELECT * FROM students WHERE name ILIKE $1 OR email ILIKE $1 ORDER BY id LIMIT $2 OFFSET $3",
+      [searchStr, limit, offset]
     );
 
     res.json({

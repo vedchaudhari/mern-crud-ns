@@ -1,28 +1,40 @@
 import { useEffect, useState } from "react";
 import { getStudents, deleteStudent } from "../api/studentApi";
 import Swal from "sweetalert2";
-import Pagination from "./Pagination";
 
-const StudentList = ({ setSelected }) => {
+const StudentList = ({ onEdit, onAddNew }) => {
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const limit = 5;
+  const [search, setSearch] = useState("");
+  const limit = 10;
 
   const fetchData = async () => {
-    const res = await getStudents(page, limit);
-    setStudents(res.data.data);
-    setTotal(res.data.total);
+    try {
+      const res = await getStudents(page, limit, search);
+      setStudents(res.data.data);
+      setTotal(res.data.total);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
-    fetchData();
-  }, [page]);
+    const debounce = setTimeout(() => {
+        fetchData();
+    }, 300);
+    return () => clearTimeout(debounce);
+  }, [page, search]);
 
   const handleDelete = (id) => {
     Swal.fire({
-      title: "Delete?",
-      showCancelButton: true
+      title: "Are you sure?",
+      text: "If You delete this Member Then this action can not be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
     }).then(async (r) => {
       if (r.isConfirmed) {
         await deleteStudent(id);
@@ -31,51 +43,64 @@ const StudentList = ({ setSelected }) => {
     });
   };
 
+  const totalPages = Math.ceil(total / limit);
+
   return (
-    <div className="container mt-4">
-      <table className="table table-bordered">
+    <>
+      <div className="toolbar">
+        <input 
+          type="text" 
+          className="search-input" 
+          placeholder="QA" 
+          value={search}
+          onChange={(e) => { setSearch(e.target.value); setPage(1); }} 
+        />
+        <button className="btn-add-member" onClick={onAddNew}>
+          Add New Member
+        </button>
+      </div>
+
+      <table className="dataTable">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
+            <th>Id</th>
+            <th>Member Name</th>
+            <th>member Email</th>
             <th>Age</th>
             <th>Action</th>
           </tr>
         </thead>
-
         <tbody>
           {students.map((s) => (
             <tr key={s.id}>
-              <td>{s.name}</td>
+              <td>{s.id}</td>
+              <td style={{cursor: 'pointer'}} onClick={() => onEdit(s)}>{s.name}</td>
               <td>{s.email}</td>
               <td>{s.age}</td>
               <td>
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() => setSelected(s)}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(s.id)}
-                >
-                  Delete
-                </button>
+                <i className="bi bi-trash-fill action-icon" onClick={() => handleDelete(s.id)}></i>
               </td>
             </tr>
           ))}
+          {students.length === 0 && (
+            <tr>
+              <td colSpan="5" style={{textAlign: "center"}}>No members found</td>
+            </tr>
+          )}
         </tbody>
       </table>
 
-      <Pagination
-        total={total}
-        limit={limit}
-        page={page}
-        setPage={setPage}
-      />
-    </div>
+      <div className="footer-controls">
+        <div>Show {limit} entries</div>
+        <div className="pagination-controls">
+          <button className="page-btn" disabled={page === 1} onClick={() => setPage(1)}>First</button>
+          <button className="page-btn" disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button>
+          <button className="page-btn active">{page}</button>
+          <button className="page-btn" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>Next</button>
+          <button className="page-btn" disabled={page >= totalPages} onClick={() => setPage(totalPages || 1)}>Last</button>
+        </div>
+      </div>
+    </>
   );
 };
 

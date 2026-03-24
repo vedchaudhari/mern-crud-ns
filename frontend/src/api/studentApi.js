@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE = "http://localhost:5000/students";
+const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/students";
 
-export const getStudents = (page, limit) =>
-  axios.get(`${BASE}?page=${page}&limit=${limit}`);
+export const getStudents = (page, limit, search = "") =>
+  axios.get(`${BASE}?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
 
 export const createStudent = (data) =>
   axios.post(BASE, data);
