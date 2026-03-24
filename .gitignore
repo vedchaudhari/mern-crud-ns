@@ -63,7 +63,7 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
-*.sqlite3
+# *.sqlite3
 venv/
 .env/
 pip-wheel-metadata/
@@ -71,9 +71,9 @@ pip-wheel-metadata/
 # ------------------------------
 # Database
 # ------------------------------
-*.sql
-*.db
-*.sqlite
+# *.sql
+# *.db
+# *.sqlite
 
 # ------------------------------
 # IDE / Editor Files

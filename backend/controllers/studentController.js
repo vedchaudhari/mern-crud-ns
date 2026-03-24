@@ -108,3 +108,19 @@ export const deleteStudent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const addMarks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject, score } = req.body;
+
+    const result = await pool.query(
+      "INSERT INTO marks (student_id, subject, score) VALUES ($1, $2, $3) RETURNING *",
+      [id, subject, score]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

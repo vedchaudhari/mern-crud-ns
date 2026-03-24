@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getStudents, deleteStudent } from "../api/studentApi";
+import { getStudents, deleteStudent, getStudentById, addStudentMarks } from "../api/studentApi";
 import Swal from "sweetalert2";
+
 
 const StudentList = ({ onEdit, onAddNew }) => {
   const [students, setStudents] = useState([]);
@@ -8,6 +9,11 @@ const StudentList = ({ onEdit, onAddNew }) => {
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState("");
   const limit = 10;
+
+  const [marksModal, setMarksModal] = useState(false);
+  const [currentStudent, setCurrentStudent] = useState(null);
+  const [newMark, setNewMark] = useState({ subject: "", score: "" });
+
 
   const fetchData = async () => {
     try {
@@ -43,18 +49,51 @@ const StudentList = ({ onEdit, onAddNew }) => {
     });
   };
 
+  const handleShowMarks = async (student) => {
+    try {
+      const res = await getStudentById(student.id);
+      setCurrentStudent(res.data);
+      setMarksModal(true);
+    } catch (err) {
+      Swal.fire("Error", "Could not fetch marks", "error");
+    }
+  };
+
+  const handleAddMark = async (e) => {
+    e.preventDefault();
+    if (!newMark.subject || !newMark.score) return;
+    try {
+      await addStudentMarks(currentStudent.id, newMark);
+      const res = await getStudentById(currentStudent.id);
+      setCurrentStudent(res.data);
+      setNewMark({ subject: "", score: "" });
+      Swal.fire({
+        title: "Added!",
+        text: "Marks added successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false
+      });
+    } catch (err) {
+      Swal.fire("Error", "Could not add marks", "error");
+    }
+  };
+
   const totalPages = Math.ceil(total / limit);
 
   return (
     <>
       <div className="toolbar">
-        <input 
-          type="text" 
-          className="search-input" 
-          placeholder="QA" 
-          value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(1); }} 
-        />
+        <div className="search-container">
+          <i className="bi bi-search search-icon"></i>
+          <input 
+            type="text" 
+            className="search-input" 
+            placeholder="Search members..." 
+            value={search}
+            onChange={(e) => { setSearch(e.target.value); setPage(1); }} 
+          />
+        </div>
         <button className="btn-add-member" onClick={onAddNew}>
           Add New Member
         </button>
@@ -67,6 +106,7 @@ const StudentList = ({ onEdit, onAddNew }) => {
             <th>Member Name</th>
             <th>member Email</th>
             <th>Age</th>
+            <th>Marks</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -77,6 +117,11 @@ const StudentList = ({ onEdit, onAddNew }) => {
               <td style={{cursor: 'pointer'}} onClick={() => onEdit(s)}>{s.name}</td>
               <td>{s.email}</td>
               <td>{s.age}</td>
+              <td>
+                <button className="btn-small-marks" onClick={() => handleShowMarks(s)}>
+                  <i className="bi bi-journal-check"></i> Marks
+                </button>
+              </td>
               <td>
                 <i className="bi bi-trash-fill action-icon" onClick={() => handleDelete(s.id)}></i>
               </td>
@@ -100,6 +145,69 @@ const StudentList = ({ onEdit, onAddNew }) => {
           <button className="page-btn" disabled={page >= totalPages} onClick={() => setPage(totalPages || 1)}>Last</button>
         </div>
       </div>
+
+      {marksModal && currentStudent && (
+        <div className="custom-modal-backdrop">
+          <div className="custom-modal" style={{width: '600px'}}>
+            <div className="custom-modal-header">
+              <h4 className="custom-modal-title">Marks for {currentStudent.name}</h4>
+              <button type="button" className="custom-modal-close" onClick={() => setMarksModal(false)}>&times;</button>
+            </div>
+            <div className="custom-modal-body">
+              <div className="marks-list">
+                <table className="dataTable">
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentStudent.marks?.map((m, idx) => (
+                      <tr key={idx}>
+                        <td>{m.subject}</td>
+                        <td>{m.score}</td>
+                      </tr>
+                    ))}
+                    {(!currentStudent.marks || currentStudent.marks.length === 0) && (
+                      <tr>
+                        <td colSpan="2" style={{textAlign: 'center'}}>No marks recorded</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <hr />
+              <form onSubmit={handleAddMark} className="marks-add-form">
+                <div style={{display: 'flex', gap: '10px', alignItems: 'flex-end'}}>
+                  <div className="form-group" style={{flex: 1, marginBottom: 0}}>
+                    <label className="form-label">Subject</label>
+                    <input 
+                      className="form-control-custom" 
+                      placeholder="Subject" 
+                      value={newMark.subject} 
+                      onChange={(e) => setNewMark({...newMark, subject: e.target.value})} 
+                      required
+                    />
+                  </div>
+                  <div className="form-group" style={{flex: 1, marginBottom: 0}}>
+                    <label className="form-label">Score</label>
+                    <input 
+                      type="number"
+                      className="form-control-custom" 
+                      placeholder="Score" 
+                      value={newMark.score} 
+                      onChange={(e) => setNewMark({...newMark, score: e.target.value})} 
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="btn-add-member" style={{padding: '10px 20px'}}>Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

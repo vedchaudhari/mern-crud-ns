@@ -5,6 +5,10 @@ const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/student
 export const getStudents = (page, limit, search = "") =>
   axios.get(`${BASE}?page=${page}&limit=${limit}&search=${encodeURIComponent(search)}`);
 
+export const getStudentById = (id) =>
+  axios.get(`${BASE}/${id}`);
+
+
 export const createStudent = (data) =>
   axios.post(BASE, data);
 
@@ -13,3 +17,6 @@ export const updateStudent = (id, data) =>
 
 export const deleteStudent = (id) =>
   axios.delete(`${BASE}/${id}`);
+
+export const addStudentMarks = (id, data) =>
+  axios.post(`${BASE}/${id}/marks`, data);
