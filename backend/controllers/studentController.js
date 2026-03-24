@@ -1,4 +1,3 @@
-// controllers/studentController.js
 import pool from "../config/db.js";
 
 export const createStudent = async (req, res) => {
@@ -19,7 +18,7 @@ export const createStudent = async (req, res) => {
 export const getStudents = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 4;
     const offset = (page - 1) * limit;
     const search = req.query.search || "";
 
@@ -73,12 +72,28 @@ export const getStudentById = async (req, res) => {
 export const updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email, age } = req.body;
+    const fields = req.body;
+    
+    const setClauses = [];
+    const values = [];
+    let i = 1;
 
-    const result = await pool.query(
-      "UPDATE students SET name=$1,email=$2,age=$3 WHERE id=$4 RETURNING *",
-      [name, email, age, id]
-    );
+    for (const [key, value] of Object.entries(fields)) {
+      if (['name', 'email', 'age'].includes(key)) {
+        setClauses.push(`${key} = $${i}`);
+        values.push(value);
+        i++;
+      }
+    }
+
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: "No valid fields provided for update" });
+    }
+
+    values.push(id);
+    const query = `UPDATE students SET ${setClauses.join(", ")} WHERE id = $${i} RETURNING *`;
+    
+    const result = await pool.query(query, values);
 
     if (!result.rows[0]) {
       return res.status(404).json({ error: "Student not found" });
@@ -120,6 +135,56 @@ export const addMarks = async (req, res) => {
     );
 
     res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updateMark = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fields = req.body;
+
+    const setClauses = [];
+    const values = [];
+    let i = 1;
+
+    for (const [key, value] of Object.entries(fields)) {
+      if (['subject', 'score'].includes(key)) {
+        setClauses.push(`${key} = $${i}`);
+        values.push(value);
+        i++;
+      }
+    }
+
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: "No valid fields provided" });
+    }
+
+    values.push(id);
+    const query = `UPDATE marks SET ${setClauses.join(", ")} WHERE id = $${i} RETURNING *`;
+    const result = await pool.query(query, values);
+
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: "Mark not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const deleteMark = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query("DELETE FROM marks WHERE id = $1 RETURNING id", [id]);
+
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: "Mark not found" });
+    }
+
+    res.json({ message: "Mark deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

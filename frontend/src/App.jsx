@@ -5,10 +5,10 @@ import StudentList from "./components/StudentList";
 function App() {
   const [selected, setSelected] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [triggerRefresh, setTriggerRefresh] = useState({ timestamp: 0, isNew: false });
 
-  const refresh = useCallback(() => {
-    setRefreshKey((k) => k + 1);
+  const refresh = useCallback((isNew = false) => {
+    setTriggerRefresh({ timestamp: Date.now(), isNew });
   }, []);
 
   const handleEdit = (student) => {
@@ -30,7 +30,7 @@ function App() {
     <div className="main-container">
       <div className="page-header">All Members</div>
       <StudentList 
-        key={refreshKey} 
+        triggerRefresh={triggerRefresh}
         onEdit={handleEdit} 
         onAddNew={handleAddNew}
       />

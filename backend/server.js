@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import studentRoutes from "./routes/studentRoutes.js";
@@ -10,7 +9,7 @@ app.use(express.json());
 
 app.use("/students", studentRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
