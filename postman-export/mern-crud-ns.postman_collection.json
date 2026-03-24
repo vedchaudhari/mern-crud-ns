@@ -1,0 +1,637 @@
+{
+  "info": {
+    "_postman_id": "42615e48-1fde-4ea9-9dc1-8057c76e062f",
+    "name": "mern-crud-ns",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40559019",
+    "_collection_link": "https://go.postman.co/collection/40559019-42615e48-1fde-4ea9-9dc1-8057c76e062f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "student",
+      "item": [
+        {
+          "name": "create-student",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Priya Mehta\",\n  \"email\": \"priya.mehta@example.com\",\n  \"age\": 22\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/students",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "create-student",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Neha Gupta\",\n  \"email\": \"neha.gupta@example.com\",\n  \"age\": 21\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/students",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "110"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"6e-RuYbt+jtvsmtQm1Oaswl05MFOEE\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:31:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Neha Gupta\",\n    \"email\": \"neha.gupta@example.com\",\n    \"age\": 21,\n    \"created_at\": \"2026-03-24T16:31:48.507Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-student",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 23\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/students/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update-student",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"nehaupdate@gmail.com\"\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/students/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "108"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"6c-vPWGAqD7nMiPFispNmF0Ww0kldI\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:33:57 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Neha Gupta\",\n    \"email\": \"nehaupdate@gmail.com\",\n    \"age\": 23,\n    \"created_at\": \"2026-03-24T16:31:48.507Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-student",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/students/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "get-student",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/students/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "306"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"132-OqM9Z8z/sa422G8kxFXizC5x4Lw\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:50:33 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Neha Gupta\",\n    \"email\": \"nehaupdate@gmail.com\",\n    \"age\": 23,\n    \"created_at\": \"2026-03-24T16:31:48.507Z\",\n    \"marks\": [\n        {\n            \"id\": 2,\n            \"student_id\": 1,\n            \"subject\": \"Maths\",\n            \"score\": 78,\n            \"created_at\": \"2026-03-24T16:49:45.167Z\"\n        },\n        {\n            \"id\": 3,\n            \"student_id\": 1,\n            \"subject\": \"Physics\",\n            \"score\": 78,\n            \"created_at\": \"2026-03-24T16:50:24.307Z\"\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "get-all-students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/students",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete-student",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/students/5",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "student-marks",
+      "item": [
+        {
+          "name": "add-marks",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subject\": \"Maths\",\r\n    \"score\":78\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/students/1/marks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "1",
+                "marks"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "add-marks",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"subject\": \"Maths\",\r\n    \"score\":78\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/students/1/marks",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "1",
+                    "marks"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "92"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"5c-884qsFEKH+IjzOVLPhT1RXJYEHo\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:47:27 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"student_id\": 1,\n    \"subject\": \"Maths\",\n    \"score\": 78,\n    \"created_at\": \"2026-03-24T16:47:27.195Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "update-marks",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/students/marks/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "marks",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "update-marks",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"score\":80\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/students/marks/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "marks",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "92"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"5c-HR7L2rPaEQB7bkK685+4e14ZbjQ\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:48:48 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"student_id\": 1,\n    \"subject\": \"Maths\",\n    \"score\": 80,\n    \"created_at\": \"2026-03-24T16:47:27.195Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete-marks",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/students/marks/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "students",
+                "marks",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "delete-marks",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/students/marks/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "marks",
+                    "1"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "26"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1a-hphXrs8Vn3ry9Gyl9J9spkc47J4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 16:49:15 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Mark deleted\"\n}"
+            },
+            {
+              "name": "delete-marks",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/students/marks/4",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "students",
+                    "marks",
+                    "4"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "26"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"1a-hphXrs8Vn3ry9Gyl9J9spkc47J4\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 24 Mar 2026 17:28:19 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Mark deleted\"\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}
